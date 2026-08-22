@@ -27,6 +27,7 @@ What remains in the prompt is judgment: negotiation, intent recognition, state t
 {
   "name": "Alex — Chase Pre-Charge-Off Collections",
 
+  "//": "Section 3 of the system prompt injects the current date via the {{ \"now\" | date: ... }} liquid variable. Verify it resolves before any promise-to-pay test.",
   "firstMessage": "Hello, this is Alex, an automated assistant calling from Chase Account Services. This call is recorded. May I please speak with James Carter?",
   "firstMessageMode": "assistant-speaks-first",
 
@@ -46,8 +47,7 @@ What remains in the prompt is judgment: negotiation, intent recognition, state t
     "toolIds": [
       "<<schedule_promise_to_pay>>",
       "<<log_dispute>>",
-      "<<log_cease_communication>>",
-      "<<process_payment>>"
+      "<<log_cease_communication>>"
     ],
     "tools": [
       { "type": "endCall" },
