@@ -52,6 +52,19 @@ The [test matrix](test_matrix.md) was validated through structured review agains
 
 Two additional "failures" reported by the review were traced to incorrectly written assertions rather than prompt defects, which is itself a reason not to treat a review pass as equivalent to execution.
 
+A second review pass, reading all artifacts in parallel rather than the prompt alone, found a further class of defect that neither single-artifact review nor execution would have caught: **corrections that were applied to one file and not propagated to the others.** Merging two states in the prompt left a dangling reference to the removed state in a downstream section and in the test matrix, which meant a compliant agent would have failed a blocking test case. Three similar cross-artifact contradictions were found and closed:
+
+| Contradiction | Resolution |
+|---|---|
+| Removed state still referenced in the negotiation step and in the matrix | References purged; the affected case rewritten against the merged state |
+| Voicemail script described as both agent-spoken and platform-delivered | Terminal now instructs silence; the platform delivers it |
+| Payment tool described as both deliberately absent and deliberately wired-and-failing | Unified on absence, which is the position the prompt and README argue |
+| Turn-length invariant contradicted the documented disclosure exception | Exception written into the invariant |
+
+One functional defect also surfaced: no current date was injected, so relative dates like "the fifteenth" could not be resolved to an ISO date or validated against the 30-day window. This would have broken the primary happy path on the first real call. The account block now carries a date variable.
+
+**Reviewing artifacts in isolation hides contradictions between them.** That is now part of the process, not an afterthought.
+
 ## Known limits of this approach
 
 A structured review predicts behavior; it does not observe it. Specifically it cannot measure:
