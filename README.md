@@ -49,6 +49,8 @@ The prompt is a **state machine with interrupts**, not a linear script. Linear s
 S0_OPEN → S1_RPC → S2_DISCLOSE → S4_NEGOTIATE → S5_PAYMENT / S6_PTP → S7_CLOSE
 ```
 
+`S2` carries the purpose disclosure, the account facts, and the opening question in a single turn — the one documented exception to the turn-length rule, because a disclosure split across turns can be interrupted halfway through.
+
 Ten terminal states are reachable from **any** point in the flow: cease, dispute, attorney, bankruptcy, deceased, wrong party, third party, voicemail, transfer, bad time. These are evaluated *before* the collection objective on every turn.
 
 Three block types, deliberately separated:
@@ -70,7 +72,7 @@ The asymmetry rule is written into the prompt explicitly: *when unsure whether s
 | [`docs/regulatory_notes.md`](docs/regulatory_notes.md) | Which framework governs what, and why |
 | [`config/assistant_config.md`](config/assistant_config.md) | Vapi assistant configuration and parameter rationale |
 | [`config/tools.md`](config/tools.md) | Tool definitions and schemas |
-| [`testing/test_matrix.md`](testing/test_matrix.md) | 30 test cases, 20 blocking |
+| [`testing/test_matrix.md`](testing/test_matrix.md) | 30 test cases, 20 of them blocking |
 | [`testing/evals/`](testing/evals/) | Vapi eval definitions |
 | [`testing/EVALS_STATUS.md`](testing/EVALS_STATUS.md) | Execution status and platform issue |
 
