@@ -84,7 +84,9 @@ Type: **Function** · **Async: ON** *(see note below)*
 **Timeout:** 10 sec
 **Lock schema:** ON
 
-**Messages** → configure a start message: *"One moment."*
+**Messages** → optional start message: *"Okay."*
+
+> Note: the prompt forbids stall phrases like "one moment please," because the agent has no lookup step to stall for. A tool-execution message is a different thing — it is spoken by the platform while a real call is in flight — but keep it minimal so the distinction is not blurred.
 
 ---
 
