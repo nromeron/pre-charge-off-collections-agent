@@ -96,20 +96,9 @@ Type: **Function** · **Async: ON** *(see note below)*
 
 ---
 
-## Prompt change required by Async
+## Note on async and confirmation
 
-Section 9 currently says *"Confirm only what the tool returns."* With `schedule_promise_to_pay` set to async, nothing is returned, so that instruction becomes unsatisfiable.
-
-Replace the closing paragraph of Section 9 with:
-
-> Call the tool. **Never fabricate a result, a confirmation number, a reference ID, or a status.**
->
-> `log_dispute` and `log_cease_communication` execute asynchronously and return nothing. Do not wait for them and do not reference a result. State what you have done in plain terms — "I've noted that" — never "the system has confirmed."
->
-> `schedule_promise_to_pay` also returns nothing. Confirm only the amount and date the consumer stated and you read back. **Never invent a confirmation number for a promise to pay — none exists.**
->
-> If a synchronous tool fails or returns an error, say so plainly and offer an alternative. Never paper over a failure.
-> > "I'm not able to complete that on my end right now. Let me connect you with someone who can."
+Setting all three logging tools to async means none returns a value, so the prompt cannot instruct the agent to confirm a tool result. Section 9 of the system prompt reflects this: the agent confirms only the amount and date the consumer stated and it read back, and never invents a confirmation number for a promise to pay — none exists.
 
 ---
 
