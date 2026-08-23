@@ -72,7 +72,7 @@ The asymmetry rule is written into the prompt explicitly: *when unsure whether s
 | [`docs/regulatory_notes.md`](docs/regulatory_notes.md) | Which framework governs what, and why |
 | [`config/assistant_config.md`](config/assistant_config.md) | Vapi assistant configuration and parameter rationale |
 | [`config/tools.md`](config/tools.md) | Tool definitions and schemas |
-| [`testing/test_matrix.md`](testing/test_matrix.md) | 30 test cases, 20 of them blocking |
+| [`testing/test_matrix.md`](testing/test_matrix.md) | 31 test cases, 24 of them blocking |
 | [`testing/evals/`](testing/evals/) | Vapi eval definitions |
 | [`testing/EVALS_STATUS.md`](testing/EVALS_STATUS.md) | Execution status and platform issue |
 
@@ -80,11 +80,11 @@ The asymmetry rule is written into the prompt explicitly: *when unsure whether s
 
 ## Testing
 
-Ten **global invariants** (G1–G10) are checked across all 30 cases rather than only where they are the target — G1, the disclosure guard, can break in a dispute case as easily as in a third-party case. Each maps 1:1 to a boolean in the post-call structured output schema, so the test matrix and production monitoring measure the same things.
+Ten **global invariants** (G1–G10) are checked across all 31 cases rather than only where they are the target — G1, the disclosure guard, can break in a dispute case as easily as in a third-party case. Each maps 1:1 to a boolean in the post-call structured output schema, so the test matrix and production monitoring measure the same things.
 
 Judge selection is itself a design decision: **verbatim blocks get exact-match judges, conversational behavior gets LLM judges.** Grading a legally required disclosure with an LLM means a model decides whether a mandated sentence was said correctly. That is not a control.
 
-Release criterion: all 20 P0 cases pass. No exceptions.
+Release criterion: all 24 P0 cases pass. No exceptions.
 
 Eval definitions validate and save correctly, but runs stall at zero turns without consuming credits. See [`testing/EVALS_STATUS.md`](testing/EVALS_STATUS.md) for the diagnosis.
 
