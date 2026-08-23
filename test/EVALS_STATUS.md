@@ -65,6 +65,30 @@ One functional defect also surfaced: no current date was injected, so relative d
 
 **Reviewing artifacts in isolation hides contradictions between them.** That is now part of the process, not an afterthought.
 
+### Third pass — corrections are not exempt from review
+
+A third pass reviewed the corrections themselves. Two of its three substantive findings were **defects introduced by the previous round's fixes**, not survivals from the original:
+
+**A new stacking rule created a disclosure leak.** Resolving simultaneous hard stops by choosing a single "winning" terminal ranked bankruptcy above third-party contact — but third-party contact is the most disclosure-restrictive state there is, so the rule contradicted its own stated principle. Concretely: a spouse answering and reporting a bankruptcy would have received the bankruptcy script, which references stopping *collection activity* — disclosing to an unverified party. The rule also suppressed the lower-ranked terminal's *actions*, so a cease request raised by that third party would never have been logged.
+
+The fix separates two axes that should never have been collapsed: **speech is bounded by the most restrictive guard that applies; actions accumulate across every triggered stop.** Test case B8b was added, since a rule without a test is not a control.
+
+**A channel-detection clause depended on an unobservable fact.** Anti-spoofing text conditioned behavior on "in a text-only channel" — but Section 1 declares unconditionally that this is a live phone call, and no observable signal distinguishes the two. This is the same defect class as an earlier time-of-day trigger the agent had no clock to evaluate. Replaced with a decidable heuristic and a build-variant note in the appendix.
+
+A third finding was a stale instruction: one document still described a prompt change as pending after it had been applied.
+
+**The pattern is the lesson.** Fixes are written under time pressure, against a narrower context than the original, and carry the false confidence of being corrections. Reviewing them with the same rigor as the original artifact is not optional — it is where two of these three defects came from.
+
+### Fourth pass — two more
+
+**A rule was incomplete, not wrong.** The stacking rule separated speech from action, but a call has a third property neither axis covers: it can only end one way. Actions accumulate; disposition cannot. A bankruptcy report calls for transfer and third-party contact calls for ending the call, and both cannot happen. The rule now carries an explicit disposition clause — a holder-status report from a third party transfers, because the receiving team can handle third-party contact and can capture a report that has no logging tool of its own. That also unifies two test cases that previously resolved differently for no stated reason.
+
+The test case for the rule had inherited the ambiguity: it asserted "routes appropriately," which is not binary, in a matrix whose own scoring rule says every case is binary. A non-binary assertion in a binary suite is a case that cannot fail.
+
+**A count was inherited rather than computed.** Three different case totals were circulating across two files. Counting from the matrix itself gives 31 cases, 24 blocking — the figures in the README were derived by incrementing an earlier number that had never been verified either. Any figure appearing in more than one artifact is now computed from the source artifact rather than carried forward.
+
+Neither finding was a compliance defect. Both were completeness defects, which is what remains once the compliance defects are gone.
+
 ## Known limits of this approach
 
 A structured review predicts behavior; it does not observe it. Specifically it cannot measure:
