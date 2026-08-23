@@ -122,7 +122,7 @@ What remains in the prompt is judgment: negotiation, intent recognition, state t
 
 ## 2. Tool definitions
 
-All four custom tools are server tools (webhook). Each returns a real result or an error — never a synthesized success.
+All three custom tools are server tools (webhook). Each returns a real result or an error — never a synthesized success.
 
 ### `schedule_promise_to_pay`
 ```json
@@ -185,24 +185,10 @@ All four custom tools are server tools (webhook). Each returns a real result or 
 > `scope` is separated because a cease request is **two** events: an FDCPA-style cease of communication and a TCPA revocation of consent. They suppress different systems. Defaults to `all_phone` if the consumer does not specify.
 
 ### `process_payment`
-```json
-{
-  "type": "function",
-  "function": {
-    "name": "process_payment",
-    "description": "Process a payment. REQUIRES verification_level = 2. This build does not provision a secondary identifier, so this tool will always reject. Transfer instead.",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "amount":             { "type": "number" },
-        "verification_level": { "type": "integer", "enum": [2] }
-      },
-      "required": ["amount", "verification_level"]
-    }
-  }
-}
-```
-> Deliberately left wired and failing. It demonstrates that the model **cannot** fabricate a payment even when it wants to — the gate is enforced server-side, not by instruction. Note there is no card-number parameter anywhere: the schema itself makes PAN capture impossible.
+
+**Deliberately not created.** See `config/tools.md`, Tool 5.
+
+`S5_PAYMENT` requires a second identity factor this build does not provision, so the path terminates in transfer and the tool is never reachable. A tool that does not exist cannot be invoked by a model that decides to ignore a rule.
 
 ---
 
@@ -295,5 +281,6 @@ These are dialer-layer controls, not assistant configuration. Naming them shows 
 1. `[CALLBACK_NUMBER]` — client inbound servicing line
 2. `[SPECIALIST_QUEUE]` — transfer destination
 3. `[NEUTRAL_PROFESSIONAL_VOICE]` — voice ID selection
-4. Webhook endpoints for the four custom tools
+4. Webhook endpoints for the three custom tools
+5. `[CONSUMER_TIMEZONE]` — resolved per consumer from the customer file; required for correct date resolution
 5. `compliancePlan.pciEnabled` — verify current field name against the live Vapi API reference before submission
